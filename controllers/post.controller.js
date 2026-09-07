@@ -5,6 +5,7 @@ const sanitizePost = (post) => ({
   title: post.title,
   content: post.content,
   userId: post.userId,
+  category: post.category
   user: post.user ? { id: post.user.id, name: post.user.name, email: post.user.email } : null,
 });
 
@@ -63,3 +64,28 @@ export const getPosts = async (req, res) => {
     return res.status(500).json({ message: "Internal server error." });
   }
 };
+
+export const category = async (req,res) => {
+  try{
+    const { category } = req.body;
+    const postCategory = await prisma.post.findMany({
+      where: category,
+      include: {
+        user: {
+          select:{ id: true, name:true}
+        }
+      }
+    })
+
+    if(postCategory.length == 0) {
+      return res.status(400).json({ message: "Post cetegory is empty" })
+    }
+
+    return res.status(200).json({ 
+      message: `All ${postCategory} include:`,
+      posts: postCategory.filter(sanitizePost)
+    })
+  }catch (error) {
+    res.status(500).json({ error: error.message || "Internal server error"})
+  }
+}

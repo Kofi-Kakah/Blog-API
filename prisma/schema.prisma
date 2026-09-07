@@ -37,10 +37,20 @@ model Follow {
   @@unique([followerId, followingId]) // prevents following the same person twice
 }
 
+enum Category {
+  TECH
+  LIFESTYLE
+  BUSINESS
+  HEALTH 
+  SPORTS
+  ENTERTAINMENT
+}
+
 model Post {
   id      Int     @id @default(autoincrement())
   title   String
   content String?
+  category Category
   userId  Int
   user    User    @relation(fields: [userId], references: [id])
   comments Comment[]
