@@ -5,7 +5,7 @@ const sanitizePost = (post) => ({
   title: post.title,
   content: post.content,
   userId: post.userId,
-  category: post.category
+  category: post.category,
   user: post.user ? { id: post.user.id, name: post.user.name, email: post.user.email } : null,
 });
 
