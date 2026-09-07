@@ -7,6 +7,6 @@ const router = express.Router();
 
 router.post("/posts", protectRoute, createPost);
 router.get("/posts", getPosts);
-router.get("/posts/category")
+router.get("/posts/category", category);
 
 export default router;
